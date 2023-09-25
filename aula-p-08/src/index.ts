@@ -1,6 +1,20 @@
 import prisma from "./database";
 
 (async () => {
-  const students = null; // TODO: Faça a implementação aqui
+  const students = await prisma.student.groupBy({
+    by: ["class"],
+    _count: { id: true },
+    orderBy: { _count: { id: "desc" } }
+  })
   console.log(students);
-})
+})()
+,
+(async () => {
+  const notWork = await prisma.student.groupBy({
+    by: ["class"],
+    _count: { id: true },
+    where: { jobId: null },
+    orderBy: { _count: { id: "desc" } }
+  })
+  console.log(notWork);
+})()
